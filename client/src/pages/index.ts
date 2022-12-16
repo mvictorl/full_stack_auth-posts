@@ -1,8 +1,5 @@
-import Home from './home'
-import Posts from './posts'
-import ErrorPage from './error-page'
-
 import { IPages } from '../models/IPages'
+
 const pages: IPages[] = [
 	{
 		name: 'Products',
@@ -17,7 +14,7 @@ const pages: IPages[] = [
 	{
 		name: 'Posts',
 		link: 'posts',
-		access: 'USER',
+		access: 'PUBLIC',
 	},
 	{
 		name: 'Options',
@@ -26,4 +23,4 @@ const pages: IPages[] = [
 	},
 ]
 
-export { Home, Posts, ErrorPage, pages }
+export default pages

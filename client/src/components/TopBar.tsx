@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { Adb as AdbIcon, Menu as MenuIcon } from '@mui/icons-material'
 import UserAvatar from './UserAvatar'
-import { pages } from '../pages'
+import pages from '../pages'
 
 import { useAuth } from '../hooks/useAuth'
 

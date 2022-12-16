@@ -1,6 +1,8 @@
 import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App'
+import PostList from './components/PostList'
+import Post from './components/Post'
 
 // import { Posts, ErrorPage } from './pages'
 // import LoginForm from './components/LoginForm'
@@ -43,6 +45,20 @@ export const router = createBrowserRouter([
 				element: <Pricing />,
 			},
 			{
+				path: 'posts',
+				element: <Posts />,
+				children: [
+					{
+						path: '',
+						element: <PostList />,
+					},
+					{
+						path: ':id',
+						element: <Post />,
+					},
+				],
+			},
+			{
 				path: 'registration',
 				element: <RegistrationForm />,
 			},
@@ -57,10 +73,6 @@ export const router = createBrowserRouter([
 			{
 				path: 'account',
 				element: <Account />,
-			},
-			{
-				path: 'posts',
-				element: <Posts />,
 			},
 		],
 	},
