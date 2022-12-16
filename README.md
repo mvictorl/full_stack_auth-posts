@@ -65,5 +65,5 @@
   4. @types/axios (-D)
 
 ```
-StrictMode redraws components twice!!!
+StrictMode redraws components twice!
 ```
