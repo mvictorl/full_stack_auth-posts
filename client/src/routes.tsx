@@ -1,23 +1,18 @@
-import { lazy } from 'react'
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App'
-import PostList from './components/PostList'
-import Post from './components/Post'
-
-// import { Posts, ErrorPage } from './pages'
-// import LoginForm from './components/LoginForm'
-// import RegistrationForm from './components/RegistrationForm'
-// import Profile from './components/Profile'
-// import Account from './components/Account'
-// import Products from './pages/products'
-// import Pricing from './pages/pricing'
+import { ProtectedRoute } from './components/ProtectedRoute'
+// import PostList from './components/PostList'
+// import Post from './components/Post'
 
 const Home = lazy(() => import('./pages/home'))
 const LoginForm = lazy(() => import('./components/LoginForm'))
 const RegistrationForm = lazy(() => import('./components/RegistrationForm'))
 const Products = lazy(() => import('./pages/products'))
 const Pricing = lazy(() => import('./pages/pricing'))
+const Post = lazy(() => import('./components/Post'))
 const Posts = lazy(() => import('./pages/posts'))
+const PostList = lazy(() => import('./components/PostList'))
 const ErrorPage = lazy(() => import('./pages/error-page'))
 const Profile = lazy(() => import('./components/Profile'))
 const Account = lazy(() => import('./components/Account'))
@@ -29,42 +24,68 @@ export const router = createBrowserRouter([
 		errorElement: <ErrorPage />,
 		children: [
 			{
-				path: '',
-				element: <Home />,
-			},
-			{
-				path: 'home',
+				index: true,
 				element: <Home />,
 			},
 			{
 				path: 'products',
-				element: <Products />,
+				element: (
+					<Suspense fallback={<h3>Loading...</h3>}>
+						<Products />
+					</Suspense>
+				),
 			},
 			{
 				path: 'pricing',
-				element: <Pricing />,
+				element: (
+					<Suspense fallback={<h3>Loading...</h3>}>
+						<Pricing />
+					</Suspense>
+				),
 			},
 			{
 				path: 'posts',
-				element: <Posts />,
+				element: (
+					<ProtectedRoute allowedRole="USER">
+						<Suspense fallback={<h3>Loading...</h3>}>
+							<Posts />
+						</Suspense>
+					</ProtectedRoute>
+				),
 				children: [
 					{
 						path: '',
-						element: <PostList />,
+						element: (
+							<Suspense fallback={<h3>Loading...</h3>}>
+								<PostList />
+							</Suspense>
+						),
 					},
 					{
 						path: ':id',
-						element: <Post />,
+						element: (
+							<Suspense fallback={<h3>Loading...</h3>}>
+								<Post />
+							</Suspense>
+						),
 					},
 				],
 			},
 			{
 				path: 'registration',
-				element: <RegistrationForm />,
+				element: (
+					<Suspense fallback={<h3>Loading...</h3>}>
+						<RegistrationForm />
+					</Suspense>
+				),
 			},
 			{
 				path: 'login',
-				element: <LoginForm />,
+				element: (
+					<Suspense fallback={<h3>Loading...</h3>}>
+						<LoginForm />
+					</Suspense>
+				),
 			},
 			{
 				path: 'profile',

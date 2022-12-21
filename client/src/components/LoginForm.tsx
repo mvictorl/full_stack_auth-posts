@@ -12,10 +12,16 @@ import {
 import { LoadingButton } from '@mui/lab'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormEvent, useState, useEffect } from 'react'
-import { useNavigate, Link as rrdLink } from 'react-router-dom'
+import { useNavigate, useLocation, Link as rrdLink } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
-const LoginForm = () => {
+type Props = {
+	state?: {
+		from: string
+	}
+}
+
+const LoginForm = ({ state }: Props) => {
 	const { isAuth, errors, isLoading, signin, clearErrors } = useAuth()
 
 	const [email, setEmail] = useState<string>('')
@@ -27,6 +33,8 @@ const LoginForm = () => {
 
 	// const { store } = useContext(Context)
 	const theme = useTheme()
+	// const location = useLocation()
+	const from: string = useLocation().state?.from || '/'
 	const navigate = useNavigate()
 
 	const togglePasswordShow = () => {
@@ -38,10 +46,10 @@ const LoginForm = () => {
 	// 	// eslint-disable-next-line
 	// }, [])
 
-	useEffect(() => {
-		if (isAuth) navigate('/home')
-		// eslint-disable-next-line
-	}, [isAuth])
+	// useEffect(() => {
+	// 	if (isAuth) navigate('/')
+	// 	// eslint-disable-next-line
+	// }, [isAuth])
 
 	useEffect(() => {
 		if (errors.length > 0) {
@@ -62,7 +70,7 @@ const LoginForm = () => {
 			// setEmail('')
 			// setPasswordError(' ')
 			// setPassword('')
-			if (isAuth) navigate('/')
+			if (isAuth) navigate(from)
 		}
 		clearErrors()
 		// eslint-disable-next-line

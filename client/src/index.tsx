@@ -4,7 +4,7 @@ import { RouterProvider } from 'react-router-dom'
 import { router } from './routes'
 import { IStore } from './models/IStore'
 import Store from './store'
-import { ProviderAuth } from './hooks/useAuth'
+import { AuthProvider } from './hocs/AuthProvider'
 
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -17,7 +17,7 @@ const store = new Store()
 export const Context = createContext<IStore>({ store })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-	<ProviderAuth>
+	<AuthProvider>
 		<RouterProvider router={router} />
-	</ProviderAuth>
+	</AuthProvider>
 )

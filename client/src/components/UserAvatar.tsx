@@ -47,7 +47,7 @@ function UserAvatar(): JSX.Element {
 	const handleLogout = async () => {
 		await auth.signout()
 		setAnchorElUser(null)
-		navigate('/home')
+		navigate('/')
 	}
 
 	if (auth.isAuth) {

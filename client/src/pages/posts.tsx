@@ -1,20 +1,17 @@
-import { useEffect } from 'react'
-// import { Context } from '../index'
-// import { observer } from 'mobx-react-lite'
-import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
+// import { useEffect } from 'react'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import { Button, Container, Typography } from '@mui/material'
-import { useAuth } from '../hooks/useAuth'
+// import { useAuth } from '../hooks/useAuth'
 
 const Posts = () => {
-	const auth = useAuth()
+	// const auth = useAuth()
+	// const navigate = useNavigate()
 	const location = useLocation()
-	// const { store } = useContext(Context)
-	const navigate = useNavigate()
 
-	useEffect(() => {
-		if (!auth.isAuth) navigate('/login')
-		// eslint-disable-next-line
-	}, [])
+	// useEffect(() => {
+	// 	if (!auth.isAuth) navigate('/login')
+	// 	// eslint-disable-next-line
+	// }, [])
 
 	return (
 		<>
