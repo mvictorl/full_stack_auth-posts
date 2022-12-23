@@ -81,7 +81,7 @@ class UserService {
 					},
 					err => {
 						console.error('DataBase error')
-						throw ApiError.DataBaseError('DB Error', e)
+						throw ApiError.DataBaseError('DB Error', err)
 					}
 				)
 		} catch (e) {

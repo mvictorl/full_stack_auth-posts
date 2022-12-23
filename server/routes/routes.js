@@ -4,7 +4,7 @@ const router = new Router()
 const { body, check } = require('express-validator')
 
 const userCtrl = require('../controllers/user-controller')
-// const postCtrl = require('./controllers/post-controller')
+const postCtrl = require('../controllers/post-controller')
 
 const { authUser } = require('../middlewares/auth-middleware')
 
@@ -105,8 +105,8 @@ router.get('/user', authUser, userCtrl.getUsers)
 // router.delete('/user/:id', async (req, res) => {})
 
 //  Posts routers
-router.get('/posts', async (req, res) => {})
-router.get('/posts/:id', async (req, res) => {})
+router.get('/posts', postCtrl.getPosts)
+router.get('/posts/:id', postCtrl.getPost)
 router.post('/posts', async (req, res) => {})
 router.put('/posts:id', async (req, res) => {})
 router.delete('/posts/:id', async (req, res) => {})

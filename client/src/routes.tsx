@@ -1,21 +1,32 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App'
-import { ProtectedRoute } from './components/ProtectedRoute'
+// import { ProtectedRoute } from './components/ProtectedRoute'
+import { Loader } from './components/Loader'
 // import PostList from './components/PostList'
 // import Post from './components/Post'
 
-const Home = lazy(() => import('./pages/home'))
+import { $api } from './http'
+
+const HomePage = lazy(() => import('./pages/home-page'))
 const LoginForm = lazy(() => import('./components/LoginForm'))
 const RegistrationForm = lazy(() => import('./components/RegistrationForm'))
-const Products = lazy(() => import('./pages/products'))
-const Pricing = lazy(() => import('./pages/pricing'))
+const ProductPage = lazy(() => import('./pages/product-page'))
+const PricePage = lazy(() => import('./pages/price-page'))
 const Post = lazy(() => import('./components/Post'))
-const Posts = lazy(() => import('./pages/posts'))
+const PostPage = lazy(() => import('./pages/post-page'))
 const PostList = lazy(() => import('./components/PostList'))
 const ErrorPage = lazy(() => import('./pages/error-page'))
 const Profile = lazy(() => import('./components/Profile'))
 const Account = lazy(() => import('./components/Account'))
+
+const getPosts = async () => {
+	return await $api.get('/posts')
+}
+
+const getPost = async (id: string) => {
+	return await $api.get(`/posts/${id}`)
+}
 
 export const router = createBrowserRouter([
 	{
@@ -25,46 +36,48 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <Home />,
+				element: <HomePage />,
 			},
 			{
 				path: 'products',
 				element: (
-					<Suspense fallback={<h3>Loading...</h3>}>
-						<Products />
+					<Suspense fallback={<Loader />}>
+						<ProductPage />
 					</Suspense>
 				),
 			},
 			{
 				path: 'pricing',
 				element: (
-					<Suspense fallback={<h3>Loading...</h3>}>
-						<Pricing />
+					<Suspense fallback={<Loader />}>
+						<PricePage />
 					</Suspense>
 				),
 			},
 			{
 				path: 'posts',
 				element: (
-					<ProtectedRoute allowedRole="USER">
-						<Suspense fallback={<h3>Loading...</h3>}>
-							<Posts />
-						</Suspense>
-					</ProtectedRoute>
+					// <ProtectedRoute allowedRole="USER">
+					<Suspense fallback={<Loader />}>
+						<PostPage />
+					</Suspense>
+					// </ProtectedRoute>
 				),
 				children: [
 					{
-						path: '',
+						index: true,
+						loader: () => getPosts(),
 						element: (
-							<Suspense fallback={<h3>Loading...</h3>}>
+							<Suspense fallback={<Loader />}>
 								<PostList />
 							</Suspense>
 						),
 					},
 					{
 						path: ':id',
+						loader: ({ params }) => getPost(params.id!.toString()),
 						element: (
-							<Suspense fallback={<h3>Loading...</h3>}>
+							<Suspense fallback={<Loader />}>
 								<Post />
 							</Suspense>
 						),
@@ -74,7 +87,7 @@ export const router = createBrowserRouter([
 			{
 				path: 'registration',
 				element: (
-					<Suspense fallback={<h3>Loading...</h3>}>
+					<Suspense fallback={<Loader />}>
 						<RegistrationForm />
 					</Suspense>
 				),
@@ -82,7 +95,7 @@ export const router = createBrowserRouter([
 			{
 				path: 'login',
 				element: (
-					<Suspense fallback={<h3>Loading...</h3>}>
+					<Suspense fallback={<Loader />}>
 						<LoginForm />
 					</Suspense>
 				),

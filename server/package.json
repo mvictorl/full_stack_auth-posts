@@ -5,7 +5,7 @@
 	"main": "server.js",
 	"module": "commonjs",
 	"scripts": {
-		"dev": "nodemon server.js"
+		"start": "nodemon server.js"
 	},
 	"author": "MVictorL (mvictorl@gmail.com)",
 	"license": "ISC",

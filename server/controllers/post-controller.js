@@ -8,6 +8,14 @@ class PostController {
 			next(e)
 		}
 	}
+
+	async getPost(req, res, next) {
+		try {
+			return res.json(await postService.getPost(req.params.id))
+		} catch (e) {
+			next(e)
+		}
+	}
 }
 
 module.exports = postCtrl = new PostController()
