@@ -1,38 +1,41 @@
-const prisma = new require('@prisma/client').PrismaClient()
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
 
 async function seed() {
-	await prisma.user.deleteMany()
-	await prisma.tocken.deleteMany()
-	await prisma.post.deleteMany()
-	await prisma.comment.deleteMany()
-	await prisma.commentLike.deleteMany()
-	await prisma.postLike.deleteMany()
-	await prisma.comment.deleteMany()
+	await prisma.user.deleteMany({})
+	await prisma.token.deleteMany({})
+	await prisma.post.deleteMany({})
+	await prisma.comment.deleteMany({})
+	await prisma.commentLike.deleteMany({})
+	await prisma.postLike.deleteMany({})
+	await prisma.comment.deleteMany({})
 
 	const victor = await prisma.user.create({
 		data: {
 			email: 'victor@ya.ru',
 			name: 'Victor',
-			password: '',
+			password: '$2a$12$HSatSNIV0YIQMXAtPTMhs.EiniHXyPr3UqK87Ks8zlU.Un3G0R7sC', // '123456'
 			isActivated: true,
-			roles: ['USER'],
+			roles: ['USER', 'ADMIN'],
 		},
 	})
+
 	const kyle = await prisma.user.create({
 		data: {
 			email: 'kyle@ya.ru',
 			name: 'Kyle',
 			password: '',
-			isActivated: true,
+			isActivated: false,
 			roles: ['USER'],
 		},
 	})
+
 	const sally = await prisma.user.create({
 		data: {
 			email: 'sally@ya.ru',
 			name: 'Sally',
 			password: '',
-			isActivated: true,
+			isActivated: false,
 			roles: ['USER'],
 		},
 	})

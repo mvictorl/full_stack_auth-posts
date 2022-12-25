@@ -13,6 +13,7 @@ const LoginForm = lazy(() => import('./components/LoginForm'))
 const RegistrationForm = lazy(() => import('./components/RegistrationForm'))
 const ProductPage = lazy(() => import('./pages/product-page'))
 const PricePage = lazy(() => import('./pages/price-page'))
+const OptionPage = lazy(() => import('./pages/option-page'))
 const Post = lazy(() => import('./components/Post'))
 const PostPage = lazy(() => import('./pages/post-page'))
 const PostList = lazy(() => import('./components/PostList'))
@@ -83,6 +84,14 @@ export const router = createBrowserRouter([
 						),
 					},
 				],
+			},
+			{
+				path: 'options',
+				element: (
+					<Suspense fallback={<Loader />}>
+						<OptionPage />
+					</Suspense>
+				),
 			},
 			{
 				path: 'registration',
