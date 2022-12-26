@@ -20,7 +20,6 @@ type Props = {
 		from: string
 	}
 }
-
 const LoginForm = ({ state }: Props) => {
 	const { isAuth, errors, isLoading, signin, clearErrors } = useAuth()
 
@@ -31,25 +30,20 @@ const LoginForm = ({ state }: Props) => {
 	const [passwordShow, setPasswordShow] = useState<boolean>(false)
 	const [passwordError, setPasswordError] = useState<string>(' ')
 
-	// const { store } = useContext(Context)
 	const theme = useTheme()
-	// const location = useLocation()
 	const from: string = useLocation().state?.from || '/'
 	const navigate = useNavigate()
 
 	const togglePasswordShow = () => {
 		setPasswordShow(prev => !prev)
 	}
-	// useEffect(() => {
-	// 	// clearErrors()
-	// 	return () => clearErrors()
-	// 	// eslint-disable-next-line
-	// }, [])
 
-	// useEffect(() => {
-	// 	if (isAuth) navigate('/')
-	// 	// eslint-disable-next-line
-	// }, [isAuth])
+	useEffect(() => {
+		if (isAuth) {
+			navigate(from)
+		}
+		// eslint-disable-next-line
+	}, [isAuth])
 
 	useEffect(() => {
 		if (errors.length > 0) {
@@ -65,12 +59,6 @@ const LoginForm = ({ state }: Props) => {
 						break
 				}
 			})
-		} else {
-			// setEmailError(' ')
-			// setEmail('')
-			// setPasswordError(' ')
-			// setPassword('')
-			if (isAuth) navigate(from)
 		}
 		clearErrors()
 		// eslint-disable-next-line
@@ -81,9 +69,6 @@ const LoginForm = ({ state }: Props) => {
 		await signin(email, password)
 	}
 
-	// if (isLoading) {
-	// 	return <h1 style={{ marginTop: 24 }}>Loading...</h1>
-	// } else {
 	return (
 		<Grid container>
 			<Grid item xs={0} md={3} lg={4} />
@@ -107,7 +92,6 @@ const LoginForm = ({ state }: Props) => {
 						<Typography
 							variant="h4"
 							sx={{
-								// textShadow: '2px 2px 2px rgba(0, 0, 255, 0.3)',
 								fontWeight: 700,
 								color: theme.palette.primary.main,
 							}}
@@ -181,8 +165,6 @@ const LoginForm = ({ state }: Props) => {
 			<Grid item xs={0} md={3} lg={4} />
 		</Grid>
 	)
-	// }
 }
 
-// export default observer(LoginForm)
 export default LoginForm

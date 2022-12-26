@@ -25,6 +25,7 @@ class PostService {
 					id: true,
 					title: true,
 					body: true,
+					author: true,
 				},
 			})
 		} catch (e) {

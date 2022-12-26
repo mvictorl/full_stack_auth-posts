@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App'
-// import { ProtectedRoute } from './components/ProtectedRoute'
+import { ProtectedRoute } from './components/ProtectedRoute'
 import { Loader } from './components/Loader'
 // import PostList from './components/PostList'
 // import Post from './components/Post'
@@ -11,12 +11,14 @@ import { $api } from './http'
 const HomePage = lazy(() => import('./pages/home-page'))
 const LoginForm = lazy(() => import('./components/LoginForm'))
 const RegistrationForm = lazy(() => import('./components/RegistrationForm'))
+const ActivatePage = lazy(() => import('./pages/activate-page'))
 const ProductPage = lazy(() => import('./pages/product-page'))
 const PricePage = lazy(() => import('./pages/price-page'))
 const OptionPage = lazy(() => import('./pages/option-page'))
 const Post = lazy(() => import('./components/Post'))
 const PostPage = lazy(() => import('./pages/post-page'))
 const PostList = lazy(() => import('./components/PostList'))
+const PostEdit = lazy(() => import('./components/PostEdit'))
 const ErrorPage = lazy(() => import('./pages/error-page'))
 const Profile = lazy(() => import('./components/Profile'))
 const Account = lazy(() => import('./components/Account'))
@@ -83,6 +85,17 @@ export const router = createBrowserRouter([
 							</Suspense>
 						),
 					},
+					{
+						path: ':id/edit',
+						loader: ({ params }) => getPost(params.id!.toString()),
+						element: (
+							<Suspense fallback={<Loader />}>
+								<ProtectedRoute allowedRole="USER">
+									<PostEdit />
+								</ProtectedRoute>
+							</Suspense>
+						),
+					},
 				],
 			},
 			{
@@ -110,12 +123,32 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
+				path: 'activate',
+				element: (
+					<Suspense fallback={<Loader />}>
+						<ActivatePage />
+					</Suspense>
+				),
+			},
+			{
 				path: 'profile',
-				element: <Profile />,
+				element: (
+					<Suspense fallback={<Loader />}>
+						<ProtectedRoute allowedRole="USER">
+							<Profile />
+						</ProtectedRoute>
+					</Suspense>
+				),
 			},
 			{
 				path: 'account',
-				element: <Account />,
+				element: (
+					<Suspense fallback={<Loader />}>
+						<ProtectedRoute allowedRole="USER">
+							<Account />
+						</ProtectedRoute>
+					</Suspense>
+				),
 			},
 		],
 	},

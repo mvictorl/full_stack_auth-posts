@@ -28,7 +28,7 @@ const PostItem = ({ id, title, body }: Props) => {
 			</CardContent>
 			<CardActions>
 				<Button to={`/posts/${id}`} size="small" component={Link}>
-					Learn More
+					Read More
 				</Button>
 			</CardActions>
 		</Card>

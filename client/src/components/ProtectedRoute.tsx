@@ -4,23 +4,39 @@ import { useAuth } from '../hooks/useAuth'
 
 type Props = {
 	allowedRole: string
-	redirectPath?: string
+	redirectToLogin?: string
+	redirectToActivation?: string
 	children?: ReactElement
 }
 
 export const ProtectedRoute = ({
 	allowedRole,
-	redirectPath = '/login',
+	redirectToLogin = '/login',
+	redirectToActivation = '/activate',
 	children,
 }: Props): ReactElement => {
 	const { user } = useAuth()
 	const location = useLocation()
 
-	if (user.roles && user.roles.includes(allowedRole))
-		return children ? children : <Outlet />
+	if (user.isActivated)
+		if (user.roles && user.roles.includes(allowedRole))
+			return children ? children : <Outlet />
+		else {
+			return (
+				<Navigate
+					to={redirectToLogin}
+					state={{ from: location.pathname }}
+					replace
+				/>
+			)
+		}
 	else {
 		return (
-			<Navigate to={redirectPath} state={{ from: location.pathname }} replace />
+			<Navigate
+				to={redirectToActivation}
+				state={{ from: location.pathname }}
+				replace
+			/>
 		)
 	}
 }

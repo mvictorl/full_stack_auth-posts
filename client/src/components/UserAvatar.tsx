@@ -1,5 +1,5 @@
 import { useState, MouseEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import {
 	Avatar,
 	Box,
@@ -23,6 +23,7 @@ import { useAuth } from '../hooks/useAuth'
 
 function UserAvatar(): JSX.Element {
 	const navigate = useNavigate()
+	const location = useLocation()
 
 	const auth = useAuth()
 
@@ -47,7 +48,7 @@ function UserAvatar(): JSX.Element {
 	const handleLogout = async () => {
 		await auth.signout()
 		setAnchorElUser(null)
-		navigate('/')
+		navigate(location.pathname)
 	}
 
 	if (auth.isAuth) {
@@ -109,7 +110,12 @@ function UserAvatar(): JSX.Element {
 			<>
 				<Box sx={{ flexGrow: 0 }}>
 					<Tooltip title="Login">
-						<IconButton sx={{ p: 0 }} to="/login" component={Link}>
+						<IconButton
+							sx={{ p: 0 }}
+							to="/login"
+							state={{ from: location.pathname }}
+							component={Link}
+						>
 							<LogIn
 								sx={{
 									fontWeight: 700,
