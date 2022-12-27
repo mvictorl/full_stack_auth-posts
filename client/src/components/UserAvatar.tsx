@@ -57,94 +57,97 @@ function UserAvatar(): JSX.Element {
 
 	if (isAuth) {
 		return (
-			<>
-				<Box sx={{ flexGrow: 0 }}>
-					<Tooltip title="Open settings">
-						<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-							<Avatar alt={user.name} />
-						</IconButton>
-					</Tooltip>
-					<Menu
-						sx={{ mt: '45px' }}
-						id="menu-appbar"
-						anchorEl={anchorElUser}
-						anchorOrigin={{
-							vertical: 'top',
-							horizontal: 'right',
-						}}
-						keepMounted
-						transformOrigin={{
-							vertical: 'top',
-							horizontal: 'right',
-						}}
-						open={Boolean(anchorElUser)}
-						onClose={handleCloseUserMenu}
-					>
-						{user.isActivated ? (
-							[
-								<MenuItem onClick={handleProfile} key="Profile">
-									<ListItemIcon>
-										<AccountBox />
-									</ListItemIcon>
-									<ListItemText>
-										<Typography textAlign="left">Profile</Typography>
-									</ListItemText>
-								</MenuItem>,
-								<MenuItem onClick={handleAccount} key="Account">
-									<ListItemIcon>
-										<Settings />
-									</ListItemIcon>
-									<ListItemText>
-										<Typography textAlign="left">Account</Typography>
-									</ListItemText>
-								</MenuItem>,
-							]
-						) : (
-							<MenuItem onClick={handleActivate}>
+			<Box sx={{ flexGrow: 0 }}>
+				<Tooltip title="Open settings">
+					<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+						<Avatar alt={user.name} />
+					</IconButton>
+				</Tooltip>
+				<Menu
+					sx={{ mt: '45px' }}
+					id="menu-appbar"
+					anchorEl={anchorElUser}
+					anchorOrigin={{
+						vertical: 'top',
+						horizontal: 'right',
+					}}
+					keepMounted
+					transformOrigin={{
+						vertical: 'top',
+						horizontal: 'right',
+					}}
+					open={Boolean(anchorElUser)}
+					onClose={handleCloseUserMenu}
+				>
+					{/* <MenuItem key="UserName"> */}
+					<ListItemText sx={{ marginX: '1rem', marginY: '.5rem' }}>
+						<Typography sx={{ fontWeight: 'bold', textAlign: 'right' }}>
+							{user.name}
+						</Typography>
+					</ListItemText>
+					{/* </MenuItem> */}
+					<Divider />
+					{user.isActivated ? (
+						[
+							<MenuItem onClick={handleProfile} key="Profile">
+								<ListItemIcon>
+									<AccountBox />
+								</ListItemIcon>
+								<ListItemText>
+									<Typography textAlign="left">Profile</Typography>
+								</ListItemText>
+							</MenuItem>,
+							<MenuItem onClick={handleAccount} key="Account">
 								<ListItemIcon>
 									<Settings />
 								</ListItemIcon>
 								<ListItemText>
-									<Typography textAlign="left">Activate</Typography>
+									<Typography textAlign="left">Account</Typography>
 								</ListItemText>
-							</MenuItem>
-						)}
-
-						<Divider />
-						<MenuItem onClick={handleLogout}>
+							</MenuItem>,
+						]
+					) : (
+						<MenuItem onClick={handleActivate}>
 							<ListItemIcon>
-								<LogOut />
+								<Settings />
 							</ListItemIcon>
 							<ListItemText>
-								<Typography textAlign="left">Logout</Typography>
+								<Typography textAlign="left">Activate</Typography>
 							</ListItemText>
 						</MenuItem>
-					</Menu>
-				</Box>
-			</>
+					)}
+					<Divider />
+					<MenuItem onClick={handleLogout}>
+						<ListItemIcon>
+							<LogOut />
+						</ListItemIcon>
+						<ListItemText>
+							<Typography textAlign="left">Logout</Typography>
+						</ListItemText>
+					</MenuItem>
+				</Menu>
+			</Box>
 		)
 	} else {
 		return (
-			<>
-				<Box sx={{ flexGrow: 0 }}>
-					<Tooltip title="Login">
-						<IconButton
-							sx={{ p: 0 }}
-							to="/login"
-							state={{ from: location.pathname }}
-							component={Link}
-						>
-							<LogIn
-								sx={{
-									fontWeight: 700,
-									textDecoration: 'none',
-									color: 'white',
-								}}
-							/>
-						</IconButton>
-					</Tooltip>
-				</Box>
-			</>
+			<Box sx={{ flexGrow: 0 }}>
+				<Tooltip title="Login">
+					<IconButton
+						sx={{ p: 0 }}
+						to="/login"
+						state={{ from: location.pathname }}
+						component={Link}
+					>
+						<LogIn
+							sx={{
+								fontWeight: 700,
+								textDecoration: 'none',
+								color: 'white',
+							}}
+						/>
+					</IconButton>
+				</Tooltip>
+			</Box>
 		)
 	}
 }
