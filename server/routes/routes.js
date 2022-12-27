@@ -97,7 +97,7 @@ router.post(
 router.post('/user/logout', userCtrl.logout)
 router.get('/user/refresh', userCtrl.refresh)
 router.get('/user/check', userCtrl.check)
-router.get('/user/activate/:link', userCtrl.activate)
+router.patch('/user/activate', userCtrl.activate)
 // router.get('/user/check/:code', async (req, res) => {})
 router.get('/user', authUser, userCtrl.getUsers)
 // router.get('/user/:id', async (req, res) => {})

@@ -89,10 +89,14 @@ class UserController {
 
 	async activate(req, res, next) {
 		try {
-			const activationLink = req.params.link
+			const { code } = req.body
+			console.log('Activation Code:', code)
+			// const activationLink = req.params.link
 			const { refreshToken } = req.cookies
-			await userService.activate(activationLink, refreshToken)
-			return res.redirect(process.env.CLIENT_URL)
+			// await userService.activate(code, refreshToken)
+			const userData = await userService.activate(code, refreshToken)
+			// return res.redirect(process.env.CLIENT_URL)
+			return res.json(userData)
 		} catch (e) {
 			next(e)
 		}

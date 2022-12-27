@@ -24,11 +24,15 @@ export default class AuthService {
 		})
 	}
 
+	static async logout(): Promise<void> {
+		return $api.post('/user/logout')
+	}
+
 	static async check(): Promise<AxiosResponse<IAuthResponse>> {
 		return $api.get<IAuthResponse>('/user/check')
 	}
 
-	static async logout(): Promise<void> {
-		return $api.post('/user/logout')
+	static async activate(code: string): Promise<AxiosResponse<IAuthResponse>> {
+		return $api.patch<IAuthResponse>('/user/activate/', { code })
 	}
 }

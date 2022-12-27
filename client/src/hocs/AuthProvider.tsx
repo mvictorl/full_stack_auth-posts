@@ -21,6 +21,7 @@ const initAuthContext = {
 		confirm: string
 	): Promise<void> | void => {},
 	signout: (): Promise<void> | void => {},
+	activate: (code: string): Promise<void> | void => {},
 	clearErrors: (): void => {},
 }
 export const AuthContext = createContext(initAuthContext)
@@ -33,7 +34,6 @@ export const AuthProvider = ({ children }: Props) => {
 
 	useEffect(() => {
 		try {
-			// setIsLoading(true)
 			AuthService.check().then(
 				res => {
 					if (res.data) {
@@ -62,8 +62,8 @@ export const AuthProvider = ({ children }: Props) => {
 	}, [])
 
 	const signin = async (email: string, password: string) => {
+		setIsLoading(true)
 		try {
-			setIsLoading(true)
 			return await AuthService.login(email, password).then(
 				res => {
 					localStorage.setItem('bearer-token', res.data.accessToken)
@@ -91,8 +91,8 @@ export const AuthProvider = ({ children }: Props) => {
 		password: string,
 		confirm: string
 	) => {
+		setIsLoading(true)
 		try {
-			setIsLoading(true)
 			return await AuthService.registration(
 				name,
 				email,
@@ -119,14 +119,36 @@ export const AuthProvider = ({ children }: Props) => {
 	}
 
 	const signout = async () => {
+		setIsLoading(true)
 		try {
-			setIsLoading(true)
 			return await AuthService.logout().then(res => {
 				localStorage.clear()
 				setIsAuth(false)
 				setUser({} as IUser)
 			})
 		} catch (e: any) {
+			console.error(e)
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
+	const activate = async (code: string) => {
+		setIsLoading(true)
+		try {
+			return await AuthService.activate(code).then(
+				res => {
+					localStorage.setItem('bearer-token', res.data.accessToken)
+					localStorage.setItem('isauth', 'true')
+					setIsAuth(true)
+					setUser(res.data.user)
+					setErrors([])
+				},
+				error => {
+					console.error(error)
+				}
+			)
+		} catch (e) {
 			console.error(e)
 		} finally {
 			setIsLoading(false)
@@ -146,6 +168,7 @@ export const AuthProvider = ({ children }: Props) => {
 		signin,
 		signup,
 		signout,
+		activate,
 		clearErrors,
 	}
 

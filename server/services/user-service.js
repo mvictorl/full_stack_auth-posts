@@ -71,10 +71,10 @@ class UserService {
 							name: user.name,
 							roles: user.roles,
 							isActivated: user.isActivated,
-						} // id, email, isActivated
+						} // id, email, name, roles, isActivated
 
 						const tokens = tokenService.generatePairOfTokens({ ...userDto })
-						// ToDO: check old token for this user & change it
+						// ToDo: check old token for this user & change it
 						await tokenService.saveToken(userDto.id, tokens.refreshToken)
 
 						return { ...tokens, user: userDto }
@@ -88,11 +88,6 @@ class UserService {
 			console.error('DB Error')
 			throw ApiError.DataBaseError('DB Error', e)
 		}
-
-		// } catch (e) {
-		// 	console.error('DataBase error')
-		// 	throw ApiError.DataBaseError('DB Error', e)
-		// }
 	}
 
 	async logout(refreshToken) {
@@ -171,30 +166,55 @@ class UserService {
 		}
 	}
 
-	async activate(activationLink, refreshToken) {
+	async activate(code, refreshToken) {
 		const userData = await tokenService.validateRefreshToken(refreshToken)
 		if (!userData) {
 			throw ApiError.UnauthorizedUserError()
 		}
 
-		const user = await db.user.findUnique({
-			where: { id: userData.id },
-			select: {
-				activationLink: true,
-			},
-		})
-		if (!user || user.activationLink !== activationLink) {
-			// throw new Error('Не корректная ссылка активации')
-			throw ApiError.BadRequest('Некорректная ссылка активации')
-		}
+		try {
+			const user = await db.user.findUnique({
+				where: { id: userData.id },
+				select: {
+					activationLink: true,
+				},
+			})
+			if (!user || user.activationLink !== code) {
+				// throw new Error('Не корректная ссылка активации')
+				throw ApiError.BadRequest('Incorrect activation link')
+			}
 
-		await db.user.update({
-			where: { id: userData.id },
-			data: {
-				isActivated: true,
-				roles: ['USER'],
-			},
-		})
+			return await db.user
+				.update({
+					where: { id: userData.id },
+					data: {
+						isActivated: true,
+						roles: ['USER'],
+						activationLink: null,
+					},
+					select: {
+						id: true,
+						email: true,
+						name: true,
+						roles: true,
+						password: true,
+						isActivated: true,
+					},
+				})
+				.then(
+					async newUser => {
+						const tokens = tokenService.generatePairOfTokens({ ...newUser })
+						return { ...tokens, user: newUser }
+					},
+					err => {
+						console.error('DataBase error')
+						throw ApiError.DataBaseError('DB Error', err)
+					}
+				)
+		} catch (e) {
+			console.error('DB Error')
+			throw ApiError.DataBaseError('DB Error', e)
+		}
 	}
 
 	async isEmailExist(email) {
@@ -211,6 +231,7 @@ class UserService {
 					() => Promise.reject(false)
 				)
 		} catch (e) {
+			console.error('DB Error')
 			throw ApiError.DataBaseError('DB Error', e)
 		}
 	}
@@ -236,19 +257,25 @@ class UserService {
 					() => Promise.reject(false)
 				)
 		} catch (e) {
+			console.error('DB Error')
 			throw ApiError.DataBaseError('DB Error', e)
 		}
 	}
 
 	async getUsers() {
-		return await db.user.findMany({
-			select: {
-				id: true,
-				name: true,
-				email: true,
-				roles: true,
-			},
-		})
+		try {
+			return await db.user.findMany({
+				select: {
+					id: true,
+					name: true,
+					email: true,
+					roles: true,
+				},
+			})
+		} catch (e) {
+			console.error('DB Error')
+			throw ApiError.DataBaseError('DB Error', e)
+		}
 	}
 }
 

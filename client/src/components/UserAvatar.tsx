@@ -25,7 +25,7 @@ function UserAvatar(): JSX.Element {
 	const navigate = useNavigate()
 	const location = useLocation()
 
-	const auth = useAuth()
+	const { isAuth, user, signout } = useAuth()
 
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
@@ -45,19 +45,23 @@ function UserAvatar(): JSX.Element {
 		setAnchorElUser(null)
 		navigate('/account')
 	}
+	const handleActivate = async () => {
+		setAnchorElUser(null)
+		navigate('/activate')
+	}
 	const handleLogout = async () => {
-		await auth.signout()
+		await signout()
 		setAnchorElUser(null)
 		navigate(location.pathname)
 	}
 
-	if (auth.isAuth) {
+	if (isAuth) {
 		return (
 			<>
 				<Box sx={{ flexGrow: 0 }}>
 					<Tooltip title="Open settings">
 						<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-							<Avatar alt={auth?.user?.name} />
+							<Avatar alt={user.name} />
 						</IconButton>
 					</Tooltip>
 					<Menu
@@ -76,22 +80,36 @@ function UserAvatar(): JSX.Element {
 						open={Boolean(anchorElUser)}
 						onClose={handleCloseUserMenu}
 					>
-						<MenuItem onClick={handleProfile}>
-							<ListItemIcon>
-								<AccountBox />
-							</ListItemIcon>
-							<ListItemText>
-								<Typography textAlign="left">Profile</Typography>
-							</ListItemText>
-						</MenuItem>
-						<MenuItem onClick={handleAccount}>
-							<ListItemIcon>
-								<Settings />
-							</ListItemIcon>
-							<ListItemText>
-								<Typography textAlign="left">Account</Typography>
-							</ListItemText>
-						</MenuItem>
+						{user.isActivated ? (
+							[
+								<MenuItem onClick={handleProfile} key="Profile">
+									<ListItemIcon>
+										<AccountBox />
+									</ListItemIcon>
+									<ListItemText>
+										<Typography textAlign="left">Profile</Typography>
+									</ListItemText>
+								</MenuItem>,
+								<MenuItem onClick={handleAccount} key="Account">
+									<ListItemIcon>
+										<Settings />
+									</ListItemIcon>
+									<ListItemText>
+										<Typography textAlign="left">Account</Typography>
+									</ListItemText>
+								</MenuItem>,
+							]
+						) : (
+							<MenuItem onClick={handleActivate}>
+								<ListItemIcon>
+									<Settings />
+								</ListItemIcon>
+								<ListItemText>
+									<Typography textAlign="left">Activate</Typography>
+								</ListItemText>
+							</MenuItem>
+						)}
+
 						<Divider />
 						<MenuItem onClick={handleLogout}>
 							<ListItemIcon>
