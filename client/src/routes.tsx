@@ -3,10 +3,9 @@ import { createBrowserRouter } from 'react-router-dom'
 import App from './App'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { Loader } from './components/Loader'
-// import PostList from './components/PostList'
-// import Post from './components/Post'
 
 import { $api } from './http'
+import PostCreate from './components/Post/PostCreate'
 
 const HomePage = lazy(() => import('./pages/home-page'))
 const LoginForm = lazy(() => import('./components/LoginForm'))
@@ -15,13 +14,13 @@ const ActivatePage = lazy(() => import('./pages/activate-page'))
 const ProductPage = lazy(() => import('./pages/product-page'))
 const PricePage = lazy(() => import('./pages/price-page'))
 const OptionPage = lazy(() => import('./pages/option-page'))
-const Post = lazy(() => import('./components/Post'))
+const Post = lazy(() => import('./components/Post/Post'))
 const PostPage = lazy(() => import('./pages/post-page'))
-const PostList = lazy(() => import('./components/PostList'))
-const PostEdit = lazy(() => import('./components/PostEdit'))
+const PostList = lazy(() => import('./components/Post/PostList'))
+const PostEdit = lazy(() => import('./components/Post/PostEdit'))
 const ErrorPage = lazy(() => import('./pages/error-page'))
-const Profile = lazy(() => import('./components/Profile'))
-const Account = lazy(() => import('./components/Account'))
+const Profile = lazy(() => import('./pages/profile-page'))
+const Account = lazy(() => import('./pages/account-page'))
 
 const getPosts = async () => {
 	return await $api.get('/posts')
@@ -60,11 +59,9 @@ export const router = createBrowserRouter([
 			{
 				path: 'posts',
 				element: (
-					// <ProtectedRoute allowedRole="USER">
 					<Suspense fallback={<Loader />}>
 						<PostPage />
 					</Suspense>
-					// </ProtectedRoute>
 				),
 				children: [
 					{
@@ -94,6 +91,14 @@ export const router = createBrowserRouter([
 									<PostEdit />
 								</ProtectedRoute>
 							</Suspense>
+						),
+					},
+					{
+						path: 'create',
+						element: (
+							<ProtectedRoute allowedRole="USER">
+								<PostCreate />
+							</ProtectedRoute>
 						),
 					},
 				],

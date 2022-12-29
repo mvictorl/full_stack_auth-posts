@@ -1,9 +1,8 @@
 import { useState, MouseEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, NavLink } from 'react-router-dom'
 import {
 	AppBar,
 	Box,
-	Button,
 	Container,
 	IconButton,
 	Menu,
@@ -12,10 +11,12 @@ import {
 	Typography,
 } from '@mui/material'
 import { Adb as AdbIcon, Menu as MenuIcon } from '@mui/icons-material'
-import UserAvatar from './UserAvatar'
-import pages from '../pages'
+import pages from '../../pages'
 
-import { useAuth } from '../hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
+import UserAvatar from './UserAvatar'
+
+import './TopBar.css'
 
 const TopBar = () => {
 	const navigate = useNavigate()
@@ -119,7 +120,7 @@ const TopBar = () => {
 						component="a"
 						href="/"
 						sx={{
-							mr: 2,
+							mr: 5,
 							display: { xs: 'flex', md: 'none' },
 							flexGrow: 1,
 							fontFamily: 'monospace',
@@ -131,15 +132,38 @@ const TopBar = () => {
 					>
 						LOGO
 					</Typography>
-					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+
+					<Box
+						sx={{
+							flexGrow: 1,
+							justifyContent: 'flex-start',
+							alignItems: 'center',
+							display: { xs: 'none', md: 'flex' },
+						}}
+					>
 						{currentPages.map(page => (
-							<Button
+							<NavLink
 								key={page.name}
-								onClick={() => handleClickNavMenuItem(page.link)}
-								sx={{ my: 2, color: 'white', display: 'block' }}
+								to={page.link}
+								style={{ textDecoration: 'none' }}
 							>
-								{page.name}
-							</Button>
+								<Typography
+									noWrap
+									className="menu-item"
+									sx={{
+										marginX: '.5rem',
+										display: 'block',
+										flexGrow: 1,
+										fontWeight: 700,
+										color: 'white',
+										textTransform: 'uppercase',
+										textDecoration: 'none',
+										'&:not(.active):hover': { pb: '.2rem' },
+									}}
+								>
+									{page.name}
+								</Typography>
+							</NavLink>
 						))}
 					</Box>
 

@@ -9,6 +9,13 @@ class PostService {
 					id: true,
 					title: true,
 					body: true,
+					createdAt: true,
+					author: {
+						select: {
+							id: true,
+							name: true,
+						},
+					},
 				},
 			})
 		} catch (e) {
@@ -25,7 +32,13 @@ class PostService {
 					id: true,
 					title: true,
 					body: true,
-					author: true,
+					createdAt: true,
+					author: {
+						select: {
+							id: true,
+							name: true,
+						},
+					},
 				},
 			})
 		} catch (e) {

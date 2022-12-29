@@ -15,13 +15,14 @@ import {
 import {
 	Login as LogIn,
 	Logout as LogOut,
+	HowToReg as Activate,
 	AccountBox,
 	Settings,
 } from '@mui/icons-material'
 
-import { useAuth } from '../hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 
-function UserAvatar(): JSX.Element {
+const UserAvatar = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
@@ -79,13 +80,11 @@ function UserAvatar(): JSX.Element {
 					open={Boolean(anchorElUser)}
 					onClose={handleCloseUserMenu}
 				>
-					{/* <MenuItem key="UserName"> */}
 					<ListItemText sx={{ marginX: '1rem', marginY: '.5rem' }}>
 						<Typography sx={{ fontWeight: 'bold', textAlign: 'right' }}>
 							{user.name}
 						</Typography>
 					</ListItemText>
-					{/* </MenuItem> */}
 					<Divider />
 					{user.isActivated ? (
 						[
@@ -109,7 +108,7 @@ function UserAvatar(): JSX.Element {
 					) : (
 						<MenuItem onClick={handleActivate}>
 							<ListItemIcon>
-								<Settings />
+								<Activate />
 							</ListItemIcon>
 							<ListItemText>
 								<Typography textAlign="left">Activate</Typography>

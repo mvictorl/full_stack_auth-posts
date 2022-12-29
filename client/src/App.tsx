@@ -8,7 +8,7 @@ import {
 	ThemeProvider,
 	responsiveFontSizes,
 } from '@mui/material'
-import TopBar from './components/TopBar'
+import TopBar from './components/TopBar/TopBar'
 
 const App = () => {
 	let theme = createTheme({

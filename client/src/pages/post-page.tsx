@@ -11,10 +11,31 @@ const Posts = () => {
 
 	return (
 		<>
-			<Container>
-				<Typography textAlign="justify" variant="h3">
+			<Container
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					paddingBottom: '2rem',
+				}}
+			>
+				<Typography
+					textAlign="justify"
+					variant="h3"
+					sx={{ display: 'inline-block' }}
+				>
 					Post Page
 				</Typography>
+				<Button
+					color="success"
+					variant="contained"
+					size="large"
+					sx={{ display: 'inline-block' }}
+					component={Link}
+					to="/posts/create"
+				>
+					Add Post
+				</Button>
 			</Container>
 
 			{/* <Button to="./23" component={Link} variant="contained">

@@ -1,0 +1,6 @@
+.active {
+  border-bottom: 2px solid white;
+}
+.menu-item:hover {
+  margin-bottom: 2px;
+}
