@@ -6,6 +6,7 @@ import {
 	Container,
 	IconButton,
 	TextField,
+	Typography,
 } from '@mui/material'
 import {
 	CheckCircle as CheckCircleIcon,
@@ -47,9 +48,16 @@ const PostEdit = () => {
 				display: 'flex',
 				flexDirection: 'column',
 				width: { xs: '100%', md: '75%' },
+				paddingTop: { xs: '2rem', md: '1rem' },
 			}}
 		>
 			<Card component="form" onSubmit={e => handleSubmitForm(e)}>
+				<Typography
+					variant="h5"
+					sx={{ textAlign: 'right', marginTop: '1rem', marginRight: '1rem' }}
+				>
+					Edit Post
+				</Typography>
 				<CardContent sx={{ justifyContent: 'space-between' }}>
 					<TextField
 						onChange={e => setNewTitle(e.target.value)}

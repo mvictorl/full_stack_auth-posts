@@ -1,11 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
+
 import App from './App'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { Loader } from './components/Loader'
-
-import { $api } from './http'
 import PostCreate from './components/Post/PostCreate'
+
+import PosrService from './services/PostService'
 
 const HomePage = lazy(() => import('./pages/home-page'))
 const LoginForm = lazy(() => import('./components/LoginForm'))
@@ -21,14 +22,6 @@ const PostEdit = lazy(() => import('./components/Post/PostEdit'))
 const ErrorPage = lazy(() => import('./pages/error-page'))
 const Profile = lazy(() => import('./pages/profile-page'))
 const Account = lazy(() => import('./pages/account-page'))
-
-const getPosts = async () => {
-	return await $api.get('/posts')
-}
-
-const getPost = async (id: string) => {
-	return await $api.get(`/posts/${id}`)
-}
 
 export const router = createBrowserRouter([
 	{
@@ -66,7 +59,7 @@ export const router = createBrowserRouter([
 				children: [
 					{
 						index: true,
-						loader: () => getPosts(),
+						loader: () => PosrService.getAllPosts(),
 						element: (
 							<Suspense fallback={<Loader />}>
 								<PostList />
@@ -75,7 +68,8 @@ export const router = createBrowserRouter([
 					},
 					{
 						path: ':id',
-						loader: ({ params }) => getPost(params.id!.toString()),
+						loader: ({ params }) =>
+							PosrService.getOnePost(params.id!.toString()),
 						element: (
 							<Suspense fallback={<Loader />}>
 								<Post />
@@ -84,7 +78,8 @@ export const router = createBrowserRouter([
 					},
 					{
 						path: ':id/edit',
-						loader: ({ params }) => getPost(params.id!.toString()),
+						loader: ({ params }) =>
+							PosrService.getOnePost(params.id!.toString()),
 						element: (
 							<Suspense fallback={<Loader />}>
 								<ProtectedRoute allowedRole="USER">

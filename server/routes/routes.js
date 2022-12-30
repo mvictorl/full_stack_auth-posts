@@ -42,9 +42,8 @@ const { authUser } = require('../middlewares/auth-middleware')
 // }
 
 /**
- * Routes
+ * Users routers
  */
-// Users routers
 router.post(
 	'/user/registration',
 	body('name')
@@ -104,7 +103,9 @@ router.get('/user', authUser, userCtrl.getUsers)
 // router.put('/user:id', async (req, res) => {})
 // router.delete('/user/:id', async (req, res) => {})
 
-//  Posts routers
+/**
+ * Posts routers
+ */
 router.get('/posts', postCtrl.getPosts)
 router.get('/posts/:id', postCtrl.getPost)
 router.post('/posts', async (req, res) => {})
