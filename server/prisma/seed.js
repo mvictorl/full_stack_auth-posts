@@ -24,9 +24,10 @@ async function seed() {
 		data: {
 			email: 'kyle@ya.ru',
 			name: 'Kyle',
-			password: '',
+			password: '$2a$12$HSatSNIV0YIQMXAtPTMhs.EiniHXyPr3UqK87Ks8zlU.Un3G0R7sC', // '123456'
+			roles: ['GUEST'],
 			isActivated: false,
-			roles: ['USER'],
+			activationLink: '33352e53-63e5-484f-bc22-f8043568ac77',
 		},
 	})
 
@@ -34,9 +35,10 @@ async function seed() {
 		data: {
 			email: 'sally@ya.ru',
 			name: 'Sally',
-			password: '',
+			password: '$2a$12$HSatSNIV0YIQMXAtPTMhs.EiniHXyPr3UqK87Ks8zlU.Un3G0R7sC', // '123456'
+			roles: ['GUEST'],
 			isActivated: false,
-			roles: ['USER'],
+			activationLink: 'fdddce36-93ef-49d4-9377-46aefcff711f',
 		},
 	})
 
