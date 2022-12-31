@@ -18,25 +18,25 @@ export const ProtectedRoute = ({
 	const { user } = useAuth()
 	const location = useLocation()
 
-	if (user.isActivated)
-		if (user.roles && user.roles.includes(allowedRole))
+	if (user.roles && user.roles.includes(allowedRole))
+		if (user.isActivated)
 			return children ? children : <Outlet />
 		else {
 			return (
 				<Navigate
-					to={redirectToLogin}
-					state={{ from: location.pathname }}
-					replace
-				/>
+				to={redirectToActivation}
+				state={{ from: location.pathname }}
+				replace
+			/>
 			)
 		}
 	else {
 		return (
 			<Navigate
-				to={redirectToActivation}
-				state={{ from: location.pathname }}
-				replace
-			/>
+					to={redirectToLogin}
+					state={{ from: location.pathname }}
+					replace
+				/>
 		)
 	}
 }
