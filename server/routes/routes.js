@@ -108,14 +108,14 @@ router.get('/user', authUser, userCtrl.getUsers)
  */
 router.get('/posts', postCtrl.getPosts)
 router.get('/posts/:id', postCtrl.getPost)
-router.post('/posts', async (req, res) => {})
-router.put('/posts:id', async (req, res) => {})
-router.delete('/posts/:id', async (req, res) => {})
+router.post('/posts', async (req, res) => { })
+router.put('/posts:id', async (req, res) => { })
+router.delete('/posts/:id', async (req, res) => { })
 
 // Comments routers
-router.post('/posts/:id/comments', async (req, res) => {})
-router.put('/posts/:pid/comments/:cid', async (req, res) => {})
-router.delete('/posts/:pid/comments/:cid', async (req, res) => {})
-router.post('/posts/:pid/comments/:cid/like', async (req, res) => {})
+router.post('/posts/:id/comments', async (req, res) => { })
+router.put('/posts/:pid/comments/:cid', async (req, res) => { })
+router.delete('/posts/:pid/comments/:cid', async (req, res) => { })
+router.post('/posts/:pid/comments/:cid/like', async (req, res) => { })
 
 module.exports = router

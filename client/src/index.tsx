@@ -1,23 +1,23 @@
-import React, { createContext } from 'react'
-import ReactDOM from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom'
-import { router } from './routes'
-import { IStore } from './models/IStore'
-import Store from './store'
-import { AuthProvider } from './hocs/AuthProvider'
+import React, { createContext } from "react"
+import ReactDOM from "react-dom/client"
+import { RouterProvider } from "react-router-dom"
+import { router } from "./routes"
+import { IStore } from "./models/IStore"
+import Store from "./store"
+import { AuthProvider } from "./hocs/AuthProvider"
 
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
-import './index.css'
+import "@fontsource/roboto/300.css"
+import "@fontsource/roboto/400.css"
+import "@fontsource/roboto/500.css"
+import "@fontsource/roboto/700.css"
+import "./index.css"
 
 const store = new Store()
 
 export const Context = createContext<IStore>({ store })
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-	<AuthProvider>
-		<RouterProvider router={router} />
-	</AuthProvider>
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <AuthProvider>
+    <RouterProvider router={router} />
+  </AuthProvider>
 )
